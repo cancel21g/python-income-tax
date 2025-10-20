@@ -1,19 +1,20 @@
-# 소득과 세금 변수 선언
-income = 5500000  # 단위: 원
-tax = 0  # 초기값
+# streamlit_app.py
+import streamlit as st
 
-# if-else 문을 이용해 소득 수준에 따라 세율 적용
-if income <= 2000000:
-    tax = income * 0.10      # 저소득층 10%
-    level = "저소득층"
-elif income <= 5000000:
-    tax = income * 0.25      # 중간소득층 25%
-    level = "중간소득층"
+st.title("간단 소득세 계산기")
+
+income = st.number_input("소득(원)", min_value=0, step=10000, value=5_500_000)
+
+# 기존 로직: 구간에 따라 단일세율 적용
+if income <= 2_000_000:
+    tax = income * 0.10
+    level = "저소득층 (10%)"
+elif income <= 5_000_000:
+    tax = income * 0.25
+    level = "중간소득층 (25%)"
 else:
-    tax = income * 0.50      # 고소득층 50%
-    level = "고소득층"
+    tax = income * 0.50
+    level = "고소득층 (50%)"
 
-# 결과 출력
-print("소득 수준:", level)
-print("소득 금액:", income, "원")
-print("예상 세금:", int(tax), "원")
+st.write(f"**소득 수준:** {level}")
+st.metric("예상 세금", f"{int(tax):,} 원")
